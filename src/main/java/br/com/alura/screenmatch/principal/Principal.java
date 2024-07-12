@@ -65,9 +65,9 @@ public class Principal {
     private void buscarSerieWeb() {
         DadosSerie dados = getDadosSerie();
         Serie serie = new Serie(dados);
-        this.dadosSeries.add(dados);
-        this.repositorio.save(serie);
         System.out.println(dados);
+
+        this.repositorio.save(serie);
     }
 
     private DadosSerie getDadosSerie() {
@@ -91,9 +91,7 @@ public class Principal {
     }
 
     private void listarSeriesBuscadas() {
-        List<Serie> series = dadosSeries.stream()
-                .map(Serie::new)
-                .toList();
+        List<Serie> series = this.repositorio.findAll();
 
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
