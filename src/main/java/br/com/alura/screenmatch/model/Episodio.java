@@ -1,14 +1,24 @@
 package br.com.alura.screenmatch.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
+@Entity
+@Table(name = "episodios")
 public class Episodio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer temporada;
     private String titulo;
     private Integer numeroEpisodio;
     private Double avaliacao;
     private LocalDate dataLancamento;
+    @ManyToOne
+    private Serie serie;
 
     public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
         this.temporada = numeroTemporada;
@@ -26,6 +36,18 @@ public class Episodio {
         } catch (DateTimeParseException ex) {
             this.dataLancamento = null;
         }
+    }
+
+    public Episodio() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Integer getTemporada() {
@@ -68,6 +90,14 @@ public class Episodio {
         this.dataLancamento = dataLancamento;
     }
 
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+
     @Override
     public String toString() {
         return "temporada=" + temporada +
@@ -75,5 +105,26 @@ public class Episodio {
                 ", numeroEpisodio=" + numeroEpisodio +
                 ", avaliacao=" + avaliacao +
                 ", dataLancamento=" + dataLancamento ;
+    }
+
+    public String getIdentificadorUnico() {
+        return temporada + "-" + numeroEpisodio;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Episodio episodio = (Episodio) o;
+        return Objects.equals(temporada, episodio.temporada) &&
+                Objects.equals(numeroEpisodio, episodio.numeroEpisodio) &&
+                Objects.equals(titulo, episodio.titulo) &&
+                Objects.equals(avaliacao, episodio.avaliacao) &&
+                Objects.equals(dataLancamento, episodio.dataLancamento);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(temporada, numeroEpisodio, titulo, avaliacao, dataLancamento);
     }
 }
