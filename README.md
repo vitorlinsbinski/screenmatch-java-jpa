@@ -1,4 +1,4 @@
-# Java: data persistence using Spring Data JPA (Alura's course)
+# Java: data persistence using Spring Data JPA 
 
 ## About project
 
